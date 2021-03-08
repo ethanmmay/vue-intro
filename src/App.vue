@@ -2,10 +2,10 @@
   <div id="root">
     <img alt="Vue logo" src="./assets/logo.png" />
     <div v-for="c in state.targets" :key="c.name">
-    <h2>{{ c.name }}</h2>
-    <h3 class="text-success">{{ c.health }}</h3>
-    <button class="btn btn-danger" @click="c.health -= 10">Slap</button>
-    <button class="btn btn-success" @click="c.health += 10">Heal</button>
+    <h2 :class="{'text-danger': c.health == 0}">{{ c.name }}</h2>
+    <h3 class="text-success" :class="{'text-danger': c.health < 40, 'text-warning': c.health < 80}">{{ c.health }}</h3>
+    <button class="btn btn-danger" @click="c.health -= 10" :disabled="c.health < 10">Slap</button>
+    <button class="btn btn-success" @click="c.health += 10" :disabled="c.health == c.max_health">Heal</button>
     </div>
   </div>
 </template>
@@ -19,11 +19,13 @@ export default {
       targets: [
         {
           name: 'Master Evil Boss',
-          health: 100
+          health: 100,
+          max_health: 100
         },
         {
           name: 'Evil Grunt Dude',
-          health: 90
+          health: 90,
+          max_health: 90
         }
       ]
     })
